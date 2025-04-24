@@ -1,0 +1,21 @@
+name: Upload DAGs to Airflow
+
+on:
+  push:
+    branches:
+      - main  # Срабатывание на изменения в основной ветке
+
+jobs:
+  deploy-dags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Проверка кода
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # Версия Python, используемая в вашем проекте
+
+      - name: Copy DAGs to Airflow server
+        run: |
+          scp -r ./dags username@server:/path/to/airflow/dags/
